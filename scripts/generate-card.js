@@ -294,9 +294,6 @@ function renderMain(d) {
   o.push(`<text x="770" y="50" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">GG</text>`);
   o.push(`<text x="770" y="63" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">WP</text>`);
 
-  // quote
-  o.push(cardRect(P, 110, CW, 42));
-  
   // stat tiles
   const tiles = [
     { icon: 'football', value: d.commits, label: 'Commits' },
@@ -309,17 +306,17 @@ function renderMain(d) {
   tiles.forEach((t, i) => {
     const x = P + i * (tw + gap);
     const fg = t.hi ? C.hiText : C.text;
-    o.push(cardRect(x, 162, tw, 88, t.hi ? C.hiFill : C.card, t.hi ? C.hiLine : C.stroke));
-    o.push(icon(t.icon, x + tw / 2 - 9, 180, fg));
-    o.push(`<text x="${x + tw / 2}" y="222" ${F} font-size="22" font-weight="700" fill="${fg}" text-anchor="middle">${t.value}</text>`);
-    o.push(`<text x="${x + tw / 2}" y="240" ${F} font-size="11" fill="${t.hi ? C.hiText : C.muted}" text-anchor="middle">${t.label}</text>`);
+    o.push(cardRect(x, 110, tw, 88, t.hi ? C.hiFill : C.card, t.hi ? C.hiLine : C.stroke));
+    o.push(icon(t.icon, x + tw / 2 - 9, 128, fg));
+    o.push(`<text x="${x + tw / 2}" y="170" ${F} font-size="22" font-weight="700" fill="${fg}" text-anchor="middle">${t.value}</text>`);
+    o.push(`<text x="${x + tw / 2}" y="188" ${F} font-size="11" fill="${t.hi ? C.hiText : C.muted}" text-anchor="middle">${t.label}</text>`);
   });
 
   // top languages
-  o.push(cardRect(P, 262, CW, 80));
-  o.push(`<text x="24" y="283" ${F} font-size="11" fill="${C.muted}">Top languages</text>`);
+  o.push(cardRect(P, 210, CW, 80));
+  o.push(`<text x="24" y="231" ${F} font-size="11" fill="${C.muted}">Top languages</text>`);
   const barX = 20;
-  const barY = 292;
+  const barY = 240;
   const barW = CW - 24;
   const barH = 9;
   const shades = [C.red, C.redDim, '#d4d4d8', '#71717a'];
@@ -339,14 +336,14 @@ function renderMain(d) {
   let lx = barX + 4;
   d.langs.forEach((l, i) => {
     const label = `${l.name} ${(l.pct * 100).toFixed(0)}%`;
-    o.push(`<rect x="${lx.toFixed(1)}" y="316" width="8" height="8" rx="2" fill="${shades[i % shades.length]}"/>`);
-    o.push(`<text x="${(lx + 13).toFixed(1)}" y="324" ${F} font-size="11" fill="${C.muted}">${esc(label)}</text>`);
+    o.push(`<rect x="${lx.toFixed(1)}" y="264" width="8" height="8" rx="2" fill="${shades[i % shades.length]}"/>`);
+    o.push(`<text x="${(lx + 13).toFixed(1)}" y="272" ${F} font-size="11" fill="${C.muted}">${esc(label)}</text>`);
     lx += 13 + label.length * 6.1 + 18;
   });
 
-  o.push(`<text x="20" y="369" ${F} font-size="11" fill="${C.mutedOnPage}">Selected work</text>`);
+  o.push(`<text x="20" y="317" ${F} font-size="11" fill="${C.mutedOnPage}">Selected work</text>`);
 
-  return wrap(378, o, 'Vishak - GitHub profile card');
+  return wrap(326, o, 'Vishak - GitHub profile card');
 }
 
 // Each work card is its own SVG so the README can wrap it in a link.
