@@ -65,6 +65,12 @@ query ($login: String!, $from: DateTime!) {
         }
       }
     }
+    # Counted for the Repos tile: everything public you own, forks included.
+    allRepos: repositories(first: 1, ownerAffiliations: OWNER, privacy: PUBLIC) {
+      totalCount
+    }
+    # Stars and language mix come from your own work only - a fork would
+    # otherwise credit you with upstream's languages.
     repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
       totalCount
       nodes {
@@ -160,7 +166,7 @@ async function collect() {
 
   return {
     commits,
-    repos: repos.totalCount,
+    repos: latest.user.allRepos.totalCount,
     streak: currentStreak(days),
     stars: repos.nodes.reduce((a, r) => a + r.stargazerCount, 0),
     langs: topLanguages(repos.nodes),
