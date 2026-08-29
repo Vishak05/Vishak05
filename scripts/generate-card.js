@@ -176,23 +176,33 @@ function starburst(cx, cy, rOuter, rInner, points) {
 }
 
 const WORK = [
-  { icon: 'game', title: 'tether', desc: 'Control your Windows laptop from your phone over Tailscale.' },
-  { icon: 'gear', title: 'dual-stream-deepfake-detection', desc: 'ResNet-18 plus an FFT branch for spatial-frequency deepfake detection.' },
-  { icon: 'chart', title: 'Stock-Market-Portfolio', desc: 'MERN-stack tracker for investments and stock performance.' },
+  { slug: 'tether', icon: 'game', title: 'tether', desc: 'Control your Windows laptop from your phone over Tailscale.' },
+  { slug: 'dual-stream-deepfake-detection', icon: 'gear', title: 'dual-stream-deepfake-detection', desc: 'ResNet-18 plus an FFT branch for spatial-frequency deepfake detection.' },
+  { slug: 'Stock-Market-Portfolio', icon: 'chart', title: 'Stock-Market-Portfolio', desc: 'MERN-stack tracker for investments and stock performance.' },
 ];
 
-function render(d, work) {
-  const W = 650;
-  const P = 8;
-  const CW = W - P * 2;
-  const F = 'font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"';
-  const card = (x, y, w, h, fill = C.card, stroke = C.stroke) =>
-    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
+const W = 650;
+const P = 8;
+const CW = W - P * 2;
+const F = 'font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"';
 
+const cardRect = (x, y, w, h, fill = C.card, stroke = C.stroke) =>
+  `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
+
+const wrap = (h, body, label) =>
+  [
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${h}" viewBox="0 0 ${W} ${h}" role="img" aria-label="${esc(label)}">`,
+    `  <rect width="${W}" height="${h}" fill="${C.page}"/>`,
+    '  ' + body.join('\n  '),
+    '</svg>',
+    '',
+  ].join('\n');
+
+function renderMain(d) {
   const o = [];
 
   // header
-  o.push(card(P, 8, CW, 92));
+  o.push(cardRect(P, 8, CW, 92));
   o.push(`<rect x="24" y="24" width="44" height="44" rx="10" fill="${C.redDeep}" stroke="${C.red}" stroke-width="1.5"/>`);
   o.push(`<text x="46" y="54" ${F} font-size="21" font-weight="700" fill="${C.red}" text-anchor="middle">V</text>`);
   o.push(`<text x="84" y="45" ${F} font-size="19" font-weight="700" fill="${C.text}">Vishak</text>`);
@@ -202,7 +212,7 @@ function render(d, work) {
   o.push(`<text x="590" y="63" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">WP</text>`);
 
   // quote
-  o.push(card(P, 110, CW, 42));
+  o.push(cardRect(P, 110, CW, 42));
   o.push(`<text x="32" y="136" ${F} font-size="13" font-style="italic" fill="#e5e7eb">&quot;Ship it, then level it up.&quot;</text>`);
 
   // stat tiles
@@ -217,14 +227,14 @@ function render(d, work) {
   tiles.forEach((t, i) => {
     const x = P + i * (tw + gap);
     const fg = t.hi ? C.hiText : C.text;
-    o.push(card(x, 162, tw, 88, t.hi ? C.hiFill : C.card, t.hi ? C.hiLine : C.stroke));
+    o.push(cardRect(x, 162, tw, 88, t.hi ? C.hiFill : C.card, t.hi ? C.hiLine : C.stroke));
     o.push(icon(t.icon, x + tw / 2 - 9, 180, fg));
     o.push(`<text x="${x + tw / 2}" y="222" ${F} font-size="22" font-weight="700" fill="${fg}" text-anchor="middle">${t.value}</text>`);
     o.push(`<text x="${x + tw / 2}" y="240" ${F} font-size="11" fill="${t.hi ? C.hiText : C.muted}" text-anchor="middle">${t.label}</text>`);
   });
 
   // top languages
-  o.push(card(P, 262, CW, 52));
+  o.push(cardRect(P, 262, CW, 52));
   o.push(`<text x="24" y="283" ${F} font-size="11" fill="${C.muted}">Top languages</text>`);
   const barX = 20;
   const barY = 292;
@@ -241,36 +251,36 @@ function render(d, work) {
   });
   o.push('</g>');
 
-  // selected work
-  o.push(`<text x="20" y="343" ${F} font-size="11" fill="${C.muted}">Selected work</text>`);
-  const cardH = 68;
-  let y = 354;
-  for (const w of work) {
-    o.push(card(P, y, CW, cardH));
-    o.push(icon(w.icon, 28, y + 24, C.red, 20));
-    o.push(`<text x="58" y="${y + 30}" ${F} font-size="14" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
-    o.push(`<text x="58" y="${y + 50}" ${F} font-size="12.5" fill="${C.desc}">${esc(w.desc)}</text>`);
-    y += cardH + 10;
-  }
+  o.push(`<text x="20" y="341" ${F} font-size="11" fill="${C.muted}">Selected work</text>`);
 
-  const H = y + 2;
-  return [
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vishak - GitHub profile card">`,
-    `  <rect width="${W}" height="${H}" fill="${C.page}"/>`,
-    '  ' + o.join('\n  '),
-    '</svg>',
-    '',
-  ].join('\n');
+  return wrap(350, o, 'Vishak - GitHub profile card');
+}
+
+// Each work card is its own SVG so the README can wrap it in a link.
+// GitHub inserts ~6px of leading between stacked images, so the card sits
+// flush at the top of its own canvas with no built-in bottom gap.
+function renderWork(w) {
+  const H = 70;
+  const o = [];
+  o.push(cardRect(P, 1, CW, 68));
+  o.push(icon(w.icon, 28, 25, C.red, 20));
+  o.push(`<text x="58" y="31" ${F} font-size="14" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
+  o.push(`<text x="58" y="51" ${F} font-size="12.5" fill="${C.desc}">${esc(w.desc)}</text>`);
+  return wrap(H, o, `${w.title} - ${w.desc}`);
 }
 
 (async () => {
   const data = await collect();
-  const svg = render(data, WORK);
   const dir = path.join(__dirname, '..', 'assets');
   fs.mkdirSync(dir, { recursive: true });
-  const out = path.join(dir, 'profile-card.svg');
-  fs.writeFileSync(out, svg);
-  console.log(`wrote ${out} (${svg.length} bytes)`);
+
+  const files = [['card-main.svg', renderMain(data)]];
+  WORK.forEach((w, i) => files.push([`work-${i + 1}.svg`, renderWork(w)]));
+
+  for (const [name, svg] of files) {
+    fs.writeFileSync(path.join(dir, name), svg);
+    console.log(`wrote assets/${name} (${svg.length} bytes)`);
+  }
   console.log(`  commits=${data.commits} repos=${data.repos} streak=${data.streak} stars=${data.stars}`);
   console.log(`  langs=${data.langs.map((l) => `${l.name} ${(l.pct * 100).toFixed(0)}%`).join(', ')}`);
 })().catch((e) => {
