@@ -12,8 +12,11 @@ const TOKEN = process.env.GITHUB_TOKEN;
 // Generated SVGs live on their own branch, never on main, so routine stat
 // refreshes cannot collide with hand edits. See ASSET_BRANCH in card.yml.
 const ASSET_BRANCH = process.env.ASSET_BRANCH || 'assets';
+// raw.githubusercontent serves the plain branch form and the refs/heads form
+// from independent caches, and either can 404 while the other works. These are
+// verified against the live host; do not "tidy" one into the other.
 const assetUrl = (name) =>
-  `https://raw.githubusercontent.com/${USER}/${USER}/refs/heads/${ASSET_BRANCH}/${name}`;
+  `https://raw.githubusercontent.com/${USER}/${USER}/${ASSET_BRANCH}/${name}`;
 
 const C = {
   card: '#121212',
@@ -323,18 +326,20 @@ function renderWork(w, i) {
 // frame it so it reads as part of the same panel instead of a loose image.
 // The plain /output/ raw path serves a stale tree, so use /refs/heads/.
 async function fetchSnake() {
-  const url = `https://raw.githubusercontent.com/${USER}/${USER}/refs/heads/output/snake.svg`;
-  try {
-    const res = await fetch(url, { headers: { 'User-Agent': 'profile-card-generator' } });
-    if (!res.ok) {
-      console.warn(`! snake.svg not available (HTTP ${res.status}) - skipping snake card.`);
-      return null;
+  const base = `https://raw.githubusercontent.com/${USER}/${USER}`;
+  // Try both ref spellings - either can 404 from a stale cache on its own.
+  const urls = [`${base}/refs/heads/output/snake.svg`, `${base}/output/snake.svg`];
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { headers: { 'User-Agent': 'profile-card-generator' } });
+      if (res.ok) return await res.text();
+      console.warn(`! ${url} -> HTTP ${res.status}`);
+    } catch (e) {
+      console.warn(`! ${url} -> ${e.message}`);
     }
-    return await res.text();
-  } catch (e) {
-    console.warn(`! could not fetch snake.svg (${e.message}) - skipping snake card.`);
-    return null;
   }
+  console.warn('! snake.svg unavailable from either path - skipping snake card.');
+  return null;
 }
 
 function renderSnakeCard(raw) {
