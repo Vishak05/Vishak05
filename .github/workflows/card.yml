@@ -33,15 +33,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROFILE_USER: ${{ github.repository_owner }}
+          ASSET_BRANCH: assets
 
-      - name: Commit if changed
+      # The SVGs are regenerated on every run, so committing them to main would
+      # push a commit each day and conflict with any local work. They go to
+      # their own branch instead; the README points at raw URLs there.
+      - name: Publish SVGs to the assets branch
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: assets
+          build_dir: assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # main is only touched when the pinned repositories change, which is rare.
+      - name: Commit README only if the pinned set changed
         run: |
+          if [ -z "$(git status --porcelain README.md)" ]; then
+            echo "README unchanged - leaving main alone"
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A assets README.md
-          if git diff --cached --quiet; then
-            echo "card unchanged"
-          else
-            git commit -m "chore: refresh profile card"
-            git push
-          fi
+          git add README.md
+          git commit -m "chore: sync work cards with pinned repos"
+          git push

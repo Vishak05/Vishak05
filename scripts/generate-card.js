@@ -9,6 +9,12 @@ const path = require('path');
 const USER = process.env.PROFILE_USER || 'Vishak05';
 const TOKEN = process.env.GITHUB_TOKEN;
 
+// Generated SVGs live on their own branch, never on main, so routine stat
+// refreshes cannot collide with hand edits. See ASSET_BRANCH in card.yml.
+const ASSET_BRANCH = process.env.ASSET_BRANCH || 'assets';
+const assetUrl = (name) =>
+  `https://raw.githubusercontent.com/${USER}/${USER}/refs/heads/${ASSET_BRANCH}/${name}`;
+
 const C = {
   card: '#121212',
   stroke: '#3f3f46',
@@ -399,9 +405,11 @@ function updateReadme(work, hasSnake) {
     return;
   }
   const rows = work.map((w, i) =>
-    `<a href="${w.url}"><img src="assets/work-${i + 1}.svg" width="100%" alt="${esc(w.title)}" /></a>`
+    `<a href="${w.url}"><img src="${assetUrl(`work-${i + 1}.svg`)}" width="100%" alt="${esc(w.title)}" /></a>`
   );
-  if (hasSnake) rows.push('<img src="assets/snake-card.svg" width="100%" alt="Contribution graph" />');
+  if (hasSnake) {
+    rows.push(`<img src="${assetUrl('snake-card.svg')}" width="100%" alt="Contribution graph" />`);
+  }
   const next = md.slice(0, a + START.length) + '\n' + rows.join('\n') + '\n' + md.slice(b);
   if (next !== md) {
     fs.writeFileSync(file, next);
