@@ -26,7 +26,6 @@ const C = {
   // Sits outside any card, so it must read on GitHub light and dark alike.
   mutedOnPage: '#6b7280',
   desc: '#9fb3cc',
-  chip: '#1b1b1b',
   red: '#dc2626',
   redDim: '#7f1d1d',
   redDeep: '#2a0d0d',
@@ -62,9 +61,7 @@ query ($login: String!, $from: DateTime!) {
           name
           description
           url
-          languages(first: 3, orderBy: { field: SIZE, direction: DESC }) {
-            nodes { name }
-          }
+          primaryLanguage { name }
         }
       }
     }
@@ -174,12 +171,7 @@ async function collect() {
 
   const pinned = latest.user.pinnedItems.nodes
     .filter(Boolean)
-    .map((r) => ({
-      url: r.url,
-      title: r.name,
-      desc: (r.description || '').trim(),
-      tags: ((r.languages && r.languages.nodes) || []).map((n) => n.name).slice(0, 3),
-    }));
+    .map((r) => ({ url: r.url, title: r.name, desc: (r.description || '').trim() }));
 
   if (pinned.length === 0) console.warn('! No pinned repositories found.');
 
@@ -242,11 +234,11 @@ const WORK_ICONS = ['game', 'gear', 'chart', 'football', 'basketball', 'trophy']
 
 // Only used when running without a token, to preview the layout.
 const SAMPLE_WORK = [
-  { url: "https://github.com/Vishak05/dual-stream-deepfake-detection", title: "dual-stream-deepfake-detection", desc: "Dual-stream spatial-frequency deepfake detector, extending a ResNet-18 baseline with an FFT-based branch to cut false positives from StyleGAN3 augmentation.", tags: ["Python", "Jupyter Notebook"] },
-  { url: "https://github.com/Vishak05/tether", title: "tether", desc: "Control your Windows laptop from your phone over Tailscale \u2014 lock, sleep, volume, Wi-Fi, screenshots, and a live status dashboard.", tags: ["Python", "TypeScript", "PowerShell"] },
-  { url: "https://github.com/Vishak05/wardrobe-stylist", title: "wardrobe-stylist", desc: "Photograph your wardrobe and get outfit recommendations \u2014 FastAPI + pgvector with SigLIP embeddings, Gemini for styling, React Native (Expo) app.", tags: ["Python", "JavaScript", "Mako"] },
-  { url: "https://github.com/Vishak05/Startup-Pitch-Evaluation", title: "Startup-Pitch-Evaluation", desc: "Multimodal pitch scoring \u2014 analyses video, audio, and transcript to rate investor pitches across 10 rubric metrics. FastAPI, PyTorch, Whisper, MediaPipe.", tags: ["Python", "JavaScript", "CSS"] },
-  { url: "https://github.com/Vishak05/Stock-Market-Portfolio", title: "Stock-Market-Portfolio", desc: "A Stock Market Portfolio application designed to track investments, monitor stock performance, and manage financial assets efficiently.", tags: ["JavaScript", "CSS", "HTML"] },
+  { url: "https://github.com/Vishak05/dual-stream-deepfake-detection", title: "dual-stream-deepfake-detection", desc: "Dual-stream spatial-frequency deepfake detector, extending a ResNet-18 baseline with an FFT-based branch to cut false positives from StyleGAN3 augmentation." },
+  { url: "https://github.com/Vishak05/tether", title: "tether", desc: "Control your Windows laptop from your phone over Tailscale \u2014 lock, sleep, volume, Wi-Fi, screenshots, and a live status dashboard." },
+  { url: "https://github.com/Vishak05/wardrobe-stylist", title: "wardrobe-stylist", desc: "Photograph your wardrobe and get outfit recommendations \u2014 FastAPI + pgvector with SigLIP embeddings, Gemini for styling, React Native (Expo) app." },
+  { url: "https://github.com/Vishak05/Startup-Pitch-Evaluation", title: "Startup-Pitch-Evaluation", desc: "Multimodal pitch scoring \u2014 analyses video, audio, and transcript to rate investor pitches across 10 rubric metrics. FastAPI, PyTorch, Whisper, MediaPipe." },
+  { url: "https://github.com/Vishak05/Stock-Market-Portfolio", title: "Stock-Market-Portfolio", desc: "A Stock Market Portfolio application designed to track investments, monitor stock performance, and manage financial assets efficiently." },
 ];
 
 const W = 830;
@@ -394,14 +386,12 @@ const CONTACTS = [
 
 function renderWork(w, i) {
   const lines = w.desc ? wrapText(w.desc, DESC_CHARS_PER_LINE, DESC_MAX_LINES) : [];
-  const tags = (w.tags || []).slice(0, 3);
   const padTop = 20;
   const titleH = 20;
   const lineH = 18;
   const padBottom = 16;
-  const chipsH = tags.length ? 27 : 0;
   const cardH = lines.length
-    ? padTop + titleH + lines.length * lineH + chipsH + padBottom
+    ? padTop + titleH + lines.length * lineH + padBottom
     : 60;
   const H = cardH + 2;
 
@@ -420,16 +410,6 @@ function renderWork(w, i) {
   lines.forEach((line, n) => {
     o.push(`<text x="64" y="${padTop + titleH + 14 + n * lineH}" ${F} font-size="12.5" fill="${C.desc}">${esc(line)}</text>`);
   });
-  // Language chips, widths estimated the same way as the legend.
-  let chipX = 64;
-  const chipY = padTop + titleH + lines.length * lineH + 8;
-  for (const tag of tags) {
-    const chipW = Math.round(tag.length * 6.1) + 18;
-    o.push(`<rect x="${chipX}" y="${chipY}" width="${chipW}" height="19" rx="9.5" fill="${C.chip}" stroke="${C.stroke}" stroke-width="1"/>`);
-    o.push(`<text x="${chipX + chipW / 2}" y="${chipY + 13}" ${F} font-size="10.5" fill="${C.muted}" text-anchor="middle">${esc(tag)}</text>`);
-    chipX += chipW + 7;
-  }
-
   return wrap(H, o, `${w.title} - ${w.desc}`);
 }
 
