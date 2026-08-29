@@ -1,0 +1,43 @@
+name: Generate Profile Card
+
+on:
+  schedule:
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/generate-card.js"
+      - ".github/workflows/card.yml"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Render profile card
+        run: node scripts/generate-card.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROFILE_USER: ${{ github.repository_owner }}
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain assets/profile-card.svg)" ]; then
+            git add assets/profile-card.svg
+            git commit -m "chore: refresh profile card"
+            git push
+          else
+            echo "card unchanged"
+          fi
