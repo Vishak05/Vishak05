@@ -10,11 +10,12 @@ const USER = process.env.PROFILE_USER || 'Vishak05';
 const TOKEN = process.env.GITHUB_TOKEN;
 
 const C = {
-  page: '#0a0a0a',
   card: '#121212',
   stroke: '#3f3f46',
   text: '#ffffff',
   muted: '#9ca3af',
+  // Sits outside any card, so it must read on GitHub light and dark alike.
+  mutedOnPage: '#6b7280',
   desc: '#9fb3cc',
   red: '#dc2626',
   redDim: '#7f1d1d',
@@ -216,7 +217,6 @@ const cardRect = (x, y, w, h, fill = C.card, stroke = C.stroke) =>
 const wrap = (h, body, label) =>
   [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${h}" viewBox="0 0 ${W} ${h}" role="img" aria-label="${esc(label)}">`,
-    `  <rect width="${W}" height="${h}" fill="${C.page}"/>`,
     '  ' + body.join('\n  '),
     '</svg>',
     '',
@@ -275,7 +275,7 @@ function renderMain(d) {
   });
   o.push('</g>');
 
-  o.push(`<text x="20" y="341" ${F} font-size="11" fill="${C.muted}">Selected work</text>`);
+  o.push(`<text x="20" y="341" ${F} font-size="11" fill="${C.mutedOnPage}">Selected work</text>`);
 
   return wrap(350, o, 'Vishak - GitHub profile card');
 }
