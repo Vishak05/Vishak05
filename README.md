@@ -2,9 +2,9 @@
 
 <!-- ┌─────────────────────── PANEL 01 ───────────────────────┐ -->
 
-# ⚓ VISHAK SENTHILKUMAR
+# VISHAK SENTHILKUMAR
 
-**`海賊王 // FINAL YEAR — COLLEGE OF ENGINEERING GUINDY, ANNA UNIVERSITY`**
+**`FINAL YEAR · COLLEGE OF ENGINEERING GUINDY, ANNA UNIVERSITY`**
 
 ![Machine Learning](https://img.shields.io/badge/Machine_Learning-e07a2f?style=for-the-badge&labelColor=0d1b2a)
 ![Quantum ML](https://img.shields.io/badge/Quantum_ML-e07a2f?style=for-the-badge&labelColor=0d1b2a)
@@ -19,20 +19,23 @@
 
 <!-- ┌─────────────────────── PANEL 02 ───────────────────────┐ -->
 
-## 卍 CURRENT ARC
+## 📍 CURRENT POSITION
 
-> Final-year engineering student at **CEG, Anna University**. I spend most of my
-> time somewhere between **machine learning research** and **shipping actual
-> products** — deepfake detection and quantum ML on one side, Django and MERN
-> apps on the other.
+> Final-year engineering student at **CEG, Anna University**. I work across two
+> halves of the pitch: **machine learning research** — deepfake detection,
+> quantum ML — and **shipping real products** with Django and the MERN stack.
 >
-> Currently sailing toward: better models, cleaner backends, and a Bayern treble.
+> Most interested right now in models that hold up outside the training set, and
+> backends that don't fall over under load.
+>
+> Off the clock: football, and a long backlog of One Piece episodes.
 
 ```
 ◤━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━◥
-   Focus     ▸  ML · Quantum ML · Full Stack
-   Stack     ▸  Python · Django · MERN
-   Off duty  ▸  One Piece · Bleach · FC Bayern München
+   Focus      ▸  ML · Quantum ML · Full Stack
+   Stack      ▸  Python · Django · React · Node
+   Studying   ▸  CEG, Anna University — final year
+   Off duty   ▸  FC Bayern München · One Piece · Bleach
 ◣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━◢
 ```
 
@@ -40,7 +43,7 @@
 
 <!-- ┌─────────────────────── PANEL 03 ───────────────────────┐ -->
 
-## ⚔️ ARSENAL
+## 🧰 THE STACK
 
 <div align="center">
 
@@ -77,7 +80,7 @@
 
 <!-- ┌─────────────────────── PANEL 04 ───────────────────────┐ -->
 
-## 🏴‍☠️ THE CREW — FEATURED WORK
+## ⚡ STARTING XI — FEATURED WORK
 
 <table>
 <tr>
@@ -149,7 +152,7 @@ Everything else lives on the
 
 <!-- ┌─────────────────────── PANEL 05 ───────────────────────┐ -->
 
-## 📊 LOG POSE
+## 📊 SEASON STATS
 
 <div align="center">
 
@@ -180,6 +183,6 @@ Everything else lives on the
 
 **`MIA SAN MIA`**
 
-<sub>Thanks for stopping by. Say hi — I'm always up for a conversation about ML, football, or whether Bleach's ending did the manga justice.</sub>
+<sub>Thanks for stopping by. Always up for a conversation about ML, backend architecture, or Bayern's midfield.</sub>
 
 </div>
