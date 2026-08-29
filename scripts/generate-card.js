@@ -45,6 +45,16 @@ async function gql(query, variables) {
 const QUERY = `
 query ($login: String!, $from: DateTime!) {
   user(login: $login) {
+    pinnedItems(first: 6, types: REPOSITORY) {
+      nodes {
+        ... on Repository {
+          name
+          description
+          url
+          primaryLanguage { name }
+        }
+      }
+    }
     repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
       totalCount
       nodes {
@@ -104,6 +114,7 @@ async function collect() {
         { name: 'HTML', pct: 0.18 },
         { name: 'Other', pct: 0.12 },
       ],
+      work: SAMPLE_WORK,
     };
   }
 
@@ -127,12 +138,19 @@ async function collect() {
   const days = latest.user.contributionsCollection.contributionCalendar.weeks
     .flatMap((w) => w.contributionDays);
 
+  const pinned = latest.user.pinnedItems.nodes
+    .filter(Boolean)
+    .map((r) => ({ url: r.url, title: r.name, desc: r.description || '' }));
+
+  if (pinned.length === 0) console.warn('! No pinned repositories found.');
+
   return {
     commits,
     repos: repos.totalCount,
     streak: currentStreak(days),
     stars: repos.nodes.reduce((a, r) => a + r.stargazerCount, 0),
     langs: topLanguages(repos.nodes),
+    work: pinned,
   };
 }
 
@@ -175,13 +193,19 @@ function starburst(cx, cy, rOuter, rInner, points) {
   return `<polygon points="${pts.join(' ')}" fill="${C.red}"/>`;
 }
 
-const WORK = [
-  { slug: 'tether', icon: 'game', title: 'tether', desc: 'Control your Windows laptop from your phone over Tailscale.' },
-  { slug: 'dual-stream-deepfake-detection', icon: 'gear', title: 'dual-stream-deepfake-detection', desc: 'ResNet-18 plus an FFT branch for spatial-frequency deepfake detection.' },
-  { slug: 'Stock-Market-Portfolio', icon: 'chart', title: 'Stock-Market-Portfolio', desc: 'MERN-stack tracker for investments and stock performance.' },
+// Icons are assigned by position so the set stays varied whatever is pinned.
+const WORK_ICONS = ['game', 'gear', 'chart', 'football', 'basketball', 'trophy'];
+
+// Only used when running without a token, to preview the layout.
+const SAMPLE_WORK = [
+  { url: 'https://github.com/Vishak05/dual-stream-deepfake-detection', title: 'dual-stream-deepfake-detection', desc: 'Dual-stream spatial-frequency deepfake detector, extending a ResNet-18 baseline with an FFT-based branch.' },
+  { url: 'https://github.com/Vishak05/tether', title: 'tether', desc: '' },
+  { url: 'https://github.com/Vishak05/wardrobe-stylist', title: 'wardrobe-stylist', desc: '' },
+  { url: 'https://github.com/Vishak05/Startup-Pitch-Evaluation', title: 'Startup-Pitch-Evaluation', desc: '' },
+  { url: 'https://github.com/Vishak05/Stock-Market-Portfolio', title: 'Stock-Market-Portfolio', desc: 'A Stock Market Portfolio application to track investments and monitor stock performance.' },
 ];
 
-const W = 650;
+const W = 830;
 const P = 8;
 const CW = W - P * 2;
 const F = 'font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"';
@@ -207,9 +231,9 @@ function renderMain(d) {
   o.push(`<text x="46" y="54" ${F} font-size="21" font-weight="700" fill="${C.red}" text-anchor="middle">V</text>`);
   o.push(`<text x="84" y="45" ${F} font-size="19" font-weight="700" fill="${C.text}">Vishak</text>`);
   o.push(`<text x="84" y="67" ${F} font-size="12.5" fill="${C.muted}">Full-stack developer · quantum ML researcher</text>`);
-  o.push(starburst(590, 54, 36, 20, 10));
-  o.push(`<text x="590" y="50" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">GG</text>`);
-  o.push(`<text x="590" y="63" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">WP</text>`);
+  o.push(starburst(770, 54, 36, 20, 10));
+  o.push(`<text x="770" y="50" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">GG</text>`);
+  o.push(`<text x="770" y="63" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">WP</text>`);
 
   // quote
   o.push(cardRect(P, 110, CW, 42));
@@ -259,14 +283,115 @@ function renderMain(d) {
 // Each work card is its own SVG so the README can wrap it in a link.
 // GitHub inserts ~6px of leading between stacked images, so the card sits
 // flush at the top of its own canvas with no built-in bottom gap.
-function renderWork(w) {
+function renderWork(w, i) {
   const H = 70;
   const o = [];
   o.push(cardRect(P, 1, CW, 68));
-  o.push(icon(w.icon, 28, 25, C.red, 20));
-  o.push(`<text x="58" y="31" ${F} font-size="14" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
-  o.push(`<text x="58" y="51" ${F} font-size="12.5" fill="${C.desc}">${esc(w.desc)}</text>`);
-  return wrap(H, o, `${w.title} - ${w.desc}`);
+  o.push(icon(WORK_ICONS[i % WORK_ICONS.length], 28, 25, C.red, 20));
+  if (w.desc) {
+    o.push(`<text x="58" y="31" ${F} font-size="14" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
+    o.push(`<text x="58" y="51" ${F} font-size="12.5" fill="${C.desc}">${esc(truncate(w.desc, 104))}</text>`);
+  } else {
+    // No description on GitHub - centre the title rather than print a filler line.
+    o.push(`<text x="58" y="40" ${F} font-size="14" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
+  }
+  return wrap(H, o, w.desc ? `${w.title} - ${w.desc}` : w.title);
+}
+
+// The snake workflow writes snake.svg to the output branch. Pull it in and
+// frame it so it reads as part of the same panel instead of a loose image.
+// The plain /output/ raw path serves a stale tree, so use /refs/heads/.
+async function fetchSnake() {
+  const url = `https://raw.githubusercontent.com/${USER}/${USER}/refs/heads/output/snake.svg`;
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'profile-card-generator' } });
+    if (!res.ok) {
+      console.warn(`! snake.svg not available (HTTP ${res.status}) - skipping snake card.`);
+      return null;
+    }
+    return await res.text();
+  } catch (e) {
+    console.warn(`! could not fetch snake.svg (${e.message}) - skipping snake card.`);
+    return null;
+  }
+}
+
+function renderSnakeCard(raw) {
+  const open = raw.match(/<svg[\s>][^>]*>/i);
+  if (!open) return null;
+  // snk emits viewBox="-16 -32 880 192" - a negative origin. Ignoring minX/minY
+  // shifts the graph out of its frame and leaves dead space below it.
+  const vb = open[0].match(/viewBox="([-\d.\s]+)"/i);
+  let minX = 0;
+  let minY = 0;
+  let sw;
+  let sh;
+  if (vb) {
+    const parts = vb[1].trim().split(/\s+/).map(Number);
+    [minX, minY, sw, sh] = parts;
+  } else {
+    sw = parseFloat((open[0].match(/width="([\d.]+)"/i) || [])[1]);
+    sh = parseFloat((open[0].match(/height="([\d.]+)"/i) || [])[1]);
+  }
+  if (!sw || !sh) return null;
+
+  const inner = raw.slice(open.index + open[0].length, raw.lastIndexOf('</svg>'));
+
+  // The declared viewBox runs well past the calendar (snk leaves room for a
+  // stack indicator), which would frame the graph with dead space. Measure the
+  // real grid instead: rows repeat once per week, so a y value shared by many
+  // cells is a row, while stray one-off values are not.
+  const cell = parseFloat((raw.match(/\.c\{[^}]*height:\s*([\d.]+)px/) || [])[1]) || 12;
+  const tally = new Map();
+  for (const m of raw.matchAll(/\sy="(-?[\d.]+)"/g)) {
+    const v = Number(m[1]);
+    tally.set(v, (tally.get(v) || 0) + 1);
+  }
+  const rows = [...tally.entries()].filter(([, n]) => n >= 10).map(([v]) => v);
+  const contentBottom = rows.length ? Math.max(...rows) + cell : minY + sh;
+  sh = Math.min(sh, contentBottom - minY);
+  const padX = 16;
+  const padTop = 30;
+  const padBottom = 14;
+  const avail = CW - padX * 2;
+  const scale = avail / sw;
+  const cardH = Math.round(sh * scale) + padTop + padBottom;
+  const H = cardH + 2;
+
+  const o = [];
+  o.push(cardRect(P, 1, CW, cardH));
+  o.push(`<text x="24" y="23" ${F} font-size="11" fill="${C.muted}">Contributions</text>`);
+  const tx = (P + padX - minX * scale).toFixed(2);
+  const ty = (padTop - minY * scale).toFixed(2);
+  o.push(`<clipPath id="snakeclip"><rect x="${P}" y="1" width="${CW}" height="${cardH}" rx="10"/></clipPath>`);
+  o.push(`<g clip-path="url(#snakeclip)"><g transform="translate(${tx},${ty}) scale(${scale.toFixed(4)})">${inner}</g></g>`);
+  return wrap(H, o, 'Contribution graph');
+}
+
+const truncate = (t, n) => (t.length <= n ? t : `${t.slice(0, n - 1).trimEnd()}…`);
+
+// Rewrites the block between the WORK markers so the links always match
+// whatever is pinned on GitHub.
+function updateReadme(work, hasSnake) {
+  const file = path.join(__dirname, '..', 'README.md');
+  const md = fs.readFileSync(file, 'utf8');
+  const START = '<!-- WORK:START -->';
+  const END = '<!-- WORK:END -->';
+  const a = md.indexOf(START);
+  const b = md.indexOf(END);
+  if (a === -1 || b === -1) {
+    console.warn('! README work markers not found - left untouched.');
+    return;
+  }
+  const rows = work.map((w, i) =>
+    `<a href="${w.url}"><img src="assets/work-${i + 1}.svg" width="100%" alt="${esc(w.title)}" /></a>`
+  );
+  if (hasSnake) rows.push('<img src="assets/snake-card.svg" width="100%" alt="Contribution graph" />');
+  const next = md.slice(0, a + START.length) + '\n' + rows.join('\n') + '\n' + md.slice(b);
+  if (next !== md) {
+    fs.writeFileSync(file, next);
+    console.log(`updated README work block (${work.length} cards)`);
+  }
 }
 
 (async () => {
@@ -274,8 +399,13 @@ function renderWork(w) {
   const dir = path.join(__dirname, '..', 'assets');
   fs.mkdirSync(dir, { recursive: true });
 
+  const work = data.work;
   const files = [['card-main.svg', renderMain(data)]];
-  WORK.forEach((w, i) => files.push([`work-${i + 1}.svg`, renderWork(w)]));
+  work.forEach((w, i) => files.push([`work-${i + 1}.svg`, renderWork(w, i)]));
+
+  const rawSnake = await fetchSnake();
+  const snakeCard = rawSnake ? renderSnakeCard(rawSnake) : null;
+  if (snakeCard) files.push(['snake-card.svg', snakeCard]);
 
   for (const [name, svg] of files) {
     fs.writeFileSync(path.join(dir, name), svg);
@@ -283,6 +413,18 @@ function renderWork(w) {
   }
   console.log(`  commits=${data.commits} repos=${data.repos} streak=${data.streak} stars=${data.stars}`);
   console.log(`  langs=${data.langs.map((l) => `${l.name} ${(l.pct * 100).toFixed(0)}%`).join(', ')}`);
+  console.log(`  pinned=${work.map((w) => w.title).join(', ')}`);
+
+  // Remove cards left over from a larger previous pin set.
+  for (let i = work.length + 1; i <= 12; i++) {
+    const stale = path.join(dir, `work-${i}.svg`);
+    if (fs.existsSync(stale)) {
+      fs.unlinkSync(stale);
+      console.log(`removed stale assets/work-${i}.svg`);
+    }
+  }
+
+  updateReadme(work, Boolean(snakeCard));
 })().catch((e) => {
   console.error(e.message);
   process.exit(1);
