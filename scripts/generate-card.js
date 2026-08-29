@@ -160,7 +160,7 @@ async function collect() {
 
   const pinned = latest.user.pinnedItems.nodes
     .filter(Boolean)
-    .map((r) => ({ url: r.url, title: r.name, desc: r.description || '' }));
+    .map((r) => ({ url: r.url, title: r.name, desc: (r.description || '').trim() }));
 
   if (pinned.length === 0) console.warn('! No pinned repositories found.');
 
@@ -218,11 +218,11 @@ const WORK_ICONS = ['game', 'gear', 'chart', 'football', 'basketball', 'trophy']
 
 // Only used when running without a token, to preview the layout.
 const SAMPLE_WORK = [
-  { url: 'https://github.com/Vishak05/dual-stream-deepfake-detection', title: 'dual-stream-deepfake-detection', desc: 'Dual-stream spatial-frequency deepfake detector, extending a ResNet-18 baseline with an FFT-based branch.' },
-  { url: 'https://github.com/Vishak05/tether', title: 'tether', desc: '' },
-  { url: 'https://github.com/Vishak05/wardrobe-stylist', title: 'wardrobe-stylist', desc: '' },
-  { url: 'https://github.com/Vishak05/Startup-Pitch-Evaluation', title: 'Startup-Pitch-Evaluation', desc: '' },
-  { url: 'https://github.com/Vishak05/Stock-Market-Portfolio', title: 'Stock-Market-Portfolio', desc: 'A Stock Market Portfolio application to track investments and monitor stock performance.' },
+  { url: "https://github.com/Vishak05/dual-stream-deepfake-detection", title: "dual-stream-deepfake-detection", desc: "Dual-stream spatial-frequency deepfake detector, extending a ResNet-18 baseline with an FFT-based branch to cut false positives from StyleGAN3 augmentation." },
+  { url: "https://github.com/Vishak05/tether", title: "tether", desc: "Control your Windows laptop from your phone over Tailscale \u2014 lock, sleep, volume, Wi-Fi, screenshots, and a live status dashboard." },
+  { url: "https://github.com/Vishak05/wardrobe-stylist", title: "wardrobe-stylist", desc: "Photograph your wardrobe and get outfit recommendations \u2014 FastAPI + pgvector with SigLIP embeddings, Gemini for styling, React Native (Expo) app." },
+  { url: "https://github.com/Vishak05/Startup-Pitch-Evaluation", title: "Startup-Pitch-Evaluation", desc: "Multimodal pitch scoring \u2014 analyses video, audio, and transcript to rate investor pitches across 10 rubric metrics. FastAPI, PyTorch, Whisper, MediaPipe." },
+  { url: "https://github.com/Vishak05/Stock-Market-Portfolio", title: "Stock-Market-Portfolio", desc: "A Stock Market Portfolio application designed to track investments, monitor stock performance, and manage financial assets efficiently." },
 ];
 
 const W = 830;
@@ -313,20 +313,67 @@ function renderMain(d) {
 // Each work card is its own SVG so the README can wrap it in a link.
 // GitHub inserts ~6px of leading between stacked images, so the card sits
 // flush at the top of its own canvas with no built-in bottom gap.
-function renderWork(w, i) {
-  const H = 70;
-  const o = [];
-  o.push(cardRect(P, 1, CW, 68));
-  o.push(icon(WORK_ICONS[i % WORK_ICONS.length], 28, 25, C.red, 20));
-  if (w.desc) {
-    o.push(`<text x="58" y="31" ${F} font-size="14" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
-    o.push(`<text x="58" y="51" ${F} font-size="12.5" fill="${C.desc}">${esc(truncate(w.desc, 104))}</text>`);
-  } else {
-    // No description on GitHub - centre the title rather than print a filler line.
-    o.push(`<text x="58" y="40" ${F} font-size="14" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
+// Description text wraps to at most two lines. There is no text metrics API
+// here, so line width is estimated from character count at ~6.5px per glyph
+// for 12.5px system-ui; the right margin absorbs the error.
+const DESC_CHARS_PER_LINE = 108;
+const DESC_MAX_LINES = 2;
+
+function wrapText(text, perLine, maxLines) {
+  const words = text.split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = '';
+  for (const word of words) {
+    const candidate = line ? `${line} ${word}` : word;
+    if (candidate.length <= perLine) {
+      line = candidate;
+      continue;
+    }
+    if (line) lines.push(line);
+    line = word;
+    if (lines.length === maxLines) break;
   }
-  return wrap(H, o, w.desc ? `${w.title} - ${w.desc}` : w.title);
+  if (line && lines.length < maxLines) lines.push(line);
+
+  // Anything that did not fit gets an ellipsis on the final line.
+  const used = lines.join(' ');
+  if (used.length < text.length) {
+    const last = lines[lines.length - 1] || '';
+    lines[lines.length - 1] =
+      last.length > perLine - 1 ? `${last.slice(0, perLine - 1).trimEnd()}…` : `${last}…`;
+  }
+  return lines;
 }
+
+function renderWork(w, i) {
+  const lines = w.desc ? wrapText(w.desc, DESC_CHARS_PER_LINE, DESC_MAX_LINES) : [];
+  const padTop = 20;
+  const titleH = 20;
+  const lineH = 18;
+  const padBottom = 16;
+  const cardH = lines.length
+    ? padTop + titleH + lines.length * lineH + padBottom
+    : 60;
+  const H = cardH + 2;
+
+  const o = [];
+  o.push(cardRect(P, 1, CW, cardH));
+
+  if (!lines.length) {
+    // No description on GitHub - centre the title rather than print a filler line.
+    o.push(icon(WORK_ICONS[i % WORK_ICONS.length], 28, cardH / 2 - 11, C.red, 22));
+    o.push(`<text x="64" y="${cardH / 2 + 6}" ${F} font-size="16" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
+    return wrap(H, o, w.title);
+  }
+
+  o.push(icon(WORK_ICONS[i % WORK_ICONS.length], 28, padTop + 2, C.red, 24));
+  o.push(`<text x="64" y="${padTop + 16}" ${F} font-size="16" font-weight="700" fill="${C.text}">${esc(w.title)}</text>`);
+  lines.forEach((line, n) => {
+    o.push(`<text x="64" y="${padTop + titleH + 14 + n * lineH}" ${F} font-size="12.5" fill="${C.desc}">${esc(line)}</text>`);
+  });
+  return wrap(H, o, `${w.title} - ${w.desc}`);
+}
+
 
 // The snake workflow writes snake.svg to the output branch. Pull it in and
 // frame it so it reads as part of the same panel instead of a loose image.
