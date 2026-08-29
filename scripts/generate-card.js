@@ -206,6 +206,11 @@ const ICONS = {
     '<path d="M7.2 11.4v2.4M6 12.6h2.4M16.1 11.9h.01M17.9 13.4h.01" stroke="{FG}" stroke-width="1.7" stroke-linecap="round"/>',
   gear:
     '<path d="M10.5 2h3l.4 2.3 1.6.9 2.2-.9 1.5 2.6-1.8 1.5v1.8l1.8 1.5-1.5 2.6-2.2-.9-1.6.9-.4 2.3h-3l-.4-2.3-1.6-.9-2.2.9-1.5-2.6L6.6 12v-1.8L4.8 8.7l1.5-2.6 2.2.9 1.6-.9L10.5 2zm1.5 6a4 4 0 100 8 4 4 0 000-8zm0 2a2 2 0 110 4 2 2 0 010-4z" fill="{FG}"/>',
+  linkedin:
+    '<path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.86-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" fill="{FG}"/>',
+  mail:
+    '<rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="{FG}" stroke-width="1.8"/>' +
+    '<path d="M3.5 7l8.5 6 8.5-6" fill="none" stroke="{FG}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
   chart:
     '<polyline points="3.5,16.8 9,11.2 13,14.8 20.5,6.5" fill="none" stroke="{FG}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
     '<path d="M15.4 6.5h5.1v5.1" fill="none" stroke="{FG}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
@@ -356,6 +361,29 @@ function wrapText(text, perLine, maxLines) {
   return lines;
 }
 
+// Rendered at half the panel width so two sit on one README line, each
+// wrapped in its own link. Shields badges did not match the card language.
+function renderContact(c) {
+  const CW2 = Math.round(W / 2) - 12;
+  const H = 58;
+  const o = [];
+  o.push(`<rect x="8" y="1" width="${CW2}" height="52" rx="10" fill="${C.card}" stroke="${C.stroke}" stroke-width="1"/>`);
+  o.push(icon(c.icon, 26, 16, C.red, 22));
+  o.push(`<text x="60" y="23" ${F} font-size="11" fill="${C.muted}">${esc(c.label)}</text>`);
+  o.push(`<text x="60" y="40" ${F} font-size="13.5" font-weight="700" fill="${C.text}">${esc(c.value)}</text>`);
+  return [
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${Math.round(W / 2)}" height="${H}" viewBox="0 0 ${Math.round(W / 2)} ${H}" role="img" aria-label="${esc(c.label)}: ${esc(c.value)}">`,
+    '  ' + o.join('\n  '),
+    '</svg>',
+    '',
+  ].join('\n');
+}
+
+const CONTACTS = [
+  { file: 'contact-linkedin.svg', icon: 'linkedin', label: 'LinkedIn', value: 'vishak-senthilkumar' },
+  { file: 'contact-email.svg', icon: 'mail', label: 'Email', value: 'vishaksenthilkumar@gmail.com' },
+];
+
 function renderWork(w, i) {
   const lines = w.desc ? wrapText(w.desc, DESC_CHARS_PER_LINE, DESC_MAX_LINES) : [];
   const padTop = 20;
@@ -494,6 +522,8 @@ function updateReadme(work, hasSnake) {
   const work = data.work;
   const files = [['card-main.svg', renderMain(data)]];
   work.forEach((w, i) => files.push([`work-${i + 1}.svg`, renderWork(w, i)]));
+
+  CONTACTS.forEach((c) => files.push([c.file, renderContact(c)]));
 
   const rawSnake = await fetchSnake();
   const snakeCard = rawSnake ? renderSnakeCard(rawSnake) : null;

@@ -9,8 +9,7 @@
 <a href="https://github.com/Vishak05/Stock-Market-Portfolio"><img src="https://raw.githubusercontent.com/Vishak05/Vishak05/assets/work-5.svg" width="100%" alt="Stock-Market-Portfolio" /></a>
 <img src="https://raw.githubusercontent.com/Vishak05/Vishak05/assets/snake-card.svg" width="100%" alt="Contribution graph" />
 <!-- WORK:END -->
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0d0d0d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI2RjMjYyNiIgZD0iTTIwLjQ0NyAyMC40NTJoLTMuNTU0di01LjU2OWMwLTEuMzI4LS4wMjctMy4wMzctMS44NTItMy4wMzctMS44NTMgMC0yLjEzNiAxLjQ0NS0yLjEzNiAyLjkzOXY1LjY2N0g5LjM1MVY5aDMuNDE0djEuNTYxaC4wNDZjLjQ3Ny0uOSAxLjYzNy0xLjg1IDMuMzctMS44NSAzLjYwMSAwIDQuMjY3IDIuMzcgNC4yNjcgNS40NTV2Ni4yODZ6TTUuMzM3IDcuNDMzYTIuMDYyIDIuMDYyIDAgMDEtMi4wNjMtMi4wNjUgMi4wNjQgMi4wNjQgMCAxMTIuMDYzIDIuMDY1em0xLjc4MiAxMy4wMTlIMy41NTVWOWgzLjU2NHYxMS40NTJ6TTIyLjIyNSAwSDEuNzcxQy43OTIgMCAwIC43NzQgMCAxLjcyOXYyMC41NDJDMCAyMy4yMjcuNzkyIDI0IDEuNzcxIDI0aDIwLjQ1MUMyMy4yIDI0IDI0IDIzLjIyNyAyNCAyMi4yNzFWMS43MjlDMjQgLjc3NCAyMy4yIDAgMjIuMjI1IDB6Ii8%2BPC9zdmc%2B)](https://www.linkedin.com/in/vishak-senthilkumar/)
-[![Email](https://img.shields.io/badge/Email-0d0d0d?style=for-the-badge&logo=gmail&logoColor=dc2626)](mailto:vishaksenthilkumar@gmail.com)
+<a href="https://www.linkedin.com/in/vishak-senthilkumar/"><img src="https://raw.githubusercontent.com/Vishak05/Vishak05/assets/contact-linkedin.svg" width="49%" alt="LinkedIn" /></a>
+<a href="mailto:vishaksenthilkumar@gmail.com"><img src="https://raw.githubusercontent.com/Vishak05/Vishak05/assets/contact-email.svg" width="49%" alt="Email" /></a>
 
 </div>
