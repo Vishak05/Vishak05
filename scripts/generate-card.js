@@ -75,7 +75,14 @@ query ($login: String!, $from: DateTime!) {
       totalCount
       nodes {
         stargazerCount
-        primaryLanguage { name }
+        # Byte counts, not a single primary language: one Python script and a
+        # large Python service must not weigh the same.
+        languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
+          edges {
+            size
+            node { name }
+          }
+        }
       }
     }
     contributionsCollection(from: $from) {
@@ -101,20 +108,24 @@ function currentStreak(days) {
 }
 
 function topLanguages(repos) {
-  const counts = new Map();
+  // Weighted by bytes written, matching how GitHub itself measures a repo.
+  const bytes = new Map();
   for (const r of repos) {
-    if (!r.primaryLanguage) continue;
-    const n = r.primaryLanguage.name;
-    counts.set(n, (counts.get(n) || 0) + 1);
+    for (const e of (r.languages && r.languages.edges) || []) {
+      bytes.set(e.node.name, (bytes.get(e.node.name) || 0) + e.size);
+    }
   }
-  const ranked = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-  const total = [...counts.values()].reduce((a, b) => a + b, 0) || 1;
+  const ranked = [...bytes.entries()].sort((a, b) => b[1] - a[1]);
+  const total = [...bytes.values()].reduce((a, b) => a + b, 0);
+  if (!total) return [];
+
   const top = ranked.slice(0, 3);
   const rest = ranked.slice(3).reduce((a, [, n]) => a + n, 0);
   const out = top.map(([name, n]) => ({ name, pct: n / total }));
   if (rest > 0) out.push({ name: 'Other', pct: rest / total });
   return out;
 }
+
 
 async function collect() {
   if (!TOKEN) {
