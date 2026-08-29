@@ -296,8 +296,7 @@ function renderMain(d) {
 
   // quote
   o.push(cardRect(P, 110, CW, 42));
-  o.push(`<text x="32" y="136" ${F} font-size="13" font-style="italic" fill="#e5e7eb">&quot;Ship it, then level it up.&quot;</text>`);
-
+  
   // stat tiles
   const tiles = [
     { icon: 'football', value: d.commits, label: 'Commits' },
