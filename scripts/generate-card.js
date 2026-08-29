@@ -225,15 +225,6 @@ const ICONS = {
 const icon = (name, x, y, fill, size = 18) =>
   `<g transform="translate(${x},${y}) scale(${size / 24})">${ICONS[name].split('{FG}').join(fill)}</g>`;
 
-function starburst(cx, cy, rOuter, rInner, points) {
-  const pts = [];
-  for (let i = 0; i < points * 2; i++) {
-    const r = i % 2 === 0 ? rOuter : rInner;
-    const a = (Math.PI / points) * i - Math.PI / 2;
-    pts.push(`${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`);
-  }
-  return `<polygon points="${pts.join(' ')}" fill="${C.red}"/>`;
-}
 
 // Curated per repo: the languages GitHub reports are accurate but dull
 // ("Mako", "Jupyter Notebook"), so these name the stack worth advertising.
@@ -285,14 +276,13 @@ function renderMain(d) {
   const o = [];
 
   // header
-  o.push(cardRect(P, 8, CW, 92));
-  o.push(`<rect x="24" y="24" width="44" height="44" rx="10" fill="${C.redDeep}" stroke="${C.red}" stroke-width="1.5"/>`);
-  o.push(`<text x="46" y="54" ${F} font-size="21" font-weight="700" fill="${C.red}" text-anchor="middle">V</text>`);
-  o.push(`<text x="84" y="45" ${F} font-size="19" font-weight="700" fill="${C.text}">Vishak</text>`);
-  o.push(`<text x="84" y="67" ${F} font-size="12.5" fill="${C.muted}">Full-stack developer · quantum ML researcher</text>`);
-  o.push(starburst(770, 54, 36, 20, 10));
-  o.push(`<text x="770" y="50" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">GG</text>`);
-  o.push(`<text x="770" y="63" ${F} font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">WP</text>`);
+  o.push(cardRect(P, 8, CW, 118));
+  o.push(`<rect x="24" y="28" width="52" height="52" rx="12" fill="${C.redDeep}" stroke="${C.red}" stroke-width="1.5"/>`);
+  o.push(`<text x="50" y="62" ${F} font-size="24" font-weight="700" fill="${C.red}" text-anchor="middle">V</text>`);
+  o.push(`<text x="92" y="46" ${F} font-size="20" font-weight="700" fill="${C.text}">Vishak Senthilkumar</text>`);
+  o.push(`<text x="92" y="68" ${F} font-size="12.5" fill="${C.muted}">Final year · College of Engineering Guindy, Anna University</text>`);
+  o.push(`<text x="92" y="88" ${F} font-size="12.5" fill="${C.desc}">Machine learning and quantum ML research — deepfake detection, hybrid quantum-classical models.</text>`);
+  o.push(`<text x="92" y="106" ${F} font-size="12.5" fill="${C.desc}">Full-stack builds in Django, MERN and FastAPI, from mobile clients to deployed services.</text>`);
 
   // stat tiles
   const tiles = [
@@ -306,17 +296,17 @@ function renderMain(d) {
   tiles.forEach((t, i) => {
     const x = P + i * (tw + gap);
     const fg = t.hi ? C.hiText : C.text;
-    o.push(cardRect(x, 110, tw, 88, t.hi ? C.hiFill : C.card, t.hi ? C.hiLine : C.stroke));
-    o.push(icon(t.icon, x + tw / 2 - 9, 128, fg));
-    o.push(`<text x="${x + tw / 2}" y="170" ${F} font-size="22" font-weight="700" fill="${fg}" text-anchor="middle">${t.value}</text>`);
-    o.push(`<text x="${x + tw / 2}" y="188" ${F} font-size="11" fill="${t.hi ? C.hiText : C.muted}" text-anchor="middle">${t.label}</text>`);
+    o.push(cardRect(x, 136, tw, 88, t.hi ? C.hiFill : C.card, t.hi ? C.hiLine : C.stroke));
+    o.push(icon(t.icon, x + tw / 2 - 9, 154, fg));
+    o.push(`<text x="${x + tw / 2}" y="196" ${F} font-size="22" font-weight="700" fill="${fg}" text-anchor="middle">${t.value}</text>`);
+    o.push(`<text x="${x + tw / 2}" y="214" ${F} font-size="11" fill="${t.hi ? C.hiText : C.muted}" text-anchor="middle">${t.label}</text>`);
   });
 
   // top languages
-  o.push(cardRect(P, 210, CW, 80));
-  o.push(`<text x="24" y="231" ${F} font-size="11" fill="${C.muted}">Top languages</text>`);
+  o.push(cardRect(P, 236, CW, 80));
+  o.push(`<text x="24" y="257" ${F} font-size="11" fill="${C.muted}">Top languages</text>`);
   const barX = 20;
-  const barY = 240;
+  const barY = 266;
   const barW = CW - 24;
   const barH = 9;
   const shades = [C.red, C.redDim, '#d4d4d8', '#71717a'];
@@ -336,14 +326,14 @@ function renderMain(d) {
   let lx = barX + 4;
   d.langs.forEach((l, i) => {
     const label = `${l.name} ${(l.pct * 100).toFixed(0)}%`;
-    o.push(`<rect x="${lx.toFixed(1)}" y="264" width="8" height="8" rx="2" fill="${shades[i % shades.length]}"/>`);
-    o.push(`<text x="${(lx + 13).toFixed(1)}" y="272" ${F} font-size="11" fill="${C.muted}">${esc(label)}</text>`);
+    o.push(`<rect x="${lx.toFixed(1)}" y="290" width="8" height="8" rx="2" fill="${shades[i % shades.length]}"/>`);
+    o.push(`<text x="${(lx + 13).toFixed(1)}" y="298" ${F} font-size="11" fill="${C.muted}">${esc(label)}</text>`);
     lx += 13 + label.length * 6.1 + 18;
   });
 
-  o.push(`<text x="20" y="317" ${F} font-size="11" fill="${C.mutedOnPage}">Selected work</text>`);
+  o.push(`<text x="20" y="343" ${F} font-size="11" fill="${C.mutedOnPage}">Selected work</text>`);
 
-  return wrap(326, o, 'Vishak - GitHub profile card');
+  return wrap(352, o, 'Vishak - GitHub profile card');
 }
 
 // Each work card is its own SVG so the README can wrap it in a link.
