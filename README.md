@@ -86,49 +86,6 @@ Automated evaluation of startup pitches.
 </td></tr>
 </table>
 
----
-
-### Right now
-
-<!-- TODO(Vishak): all four taken from your mock — confirm or correct -->
-
-<table>
-<tr>
-<td width="50%">
-
-`💼 WORKING`
-
-**Intern at NMDC Energy**
-
-</td>
-<td width="50%">
-
-`📖 LEARNING`
-
-**Qiskit and Rust**
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-`🔬 RESEARCHING`
-
-**Quantum ML for battery risk**
-
-</td>
-<td width="50%">
-
-`🎮 OFF THE CLOCK`
-
-**Gaming, anime, football and basketball**
-
-</td>
-</tr>
-</table>
-
----
-
 <div align="center">
 
 <picture>
