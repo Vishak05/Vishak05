@@ -11,28 +11,27 @@
   <text x="32" y="136" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" font-style="italic" fill="#e5e7eb">&quot;Ship it, then level it up.&quot;</text>
   <rect x="8" y="162" width="196" height="88" rx="10" fill="#121212" stroke="#3f3f46" stroke-width="1"/>
   <g transform="translate(97,180) scale(0.75)"><circle cx="12" cy="12" r="9" fill="none" stroke="#ffffff" stroke-width="1.8"/><path d="M12 7.4l3.3 2.4-1.26 3.9H9.96L8.7 9.8z" fill="#ffffff"/><path d="M12 3v2.3M4.3 9.6l2.2.7M19.7 9.6l-2.2.7M7.6 19.2l1.35-1.85M16.4 19.2l-1.35-1.85" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" fill="none"/></g>
-  <text x="106" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">312</text>
+  <text x="106" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">170</text>
   <text x="106" y="240" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">Commits</text>
   <rect x="214" y="162" width="196" height="88" rx="10" fill="#121212" stroke="#3f3f46" stroke-width="1"/>
   <g transform="translate(303,180) scale(0.75)"><circle cx="12" cy="12" r="9" fill="none" stroke="#ffffff" stroke-width="1.8"/><path d="M3 12h18M12 3v18" stroke="#ffffff" stroke-width="1.4" fill="none"/><path d="M5.6 5.6a10 10 0 010 12.8M18.4 5.6a10 10 0 000 12.8" stroke="#ffffff" stroke-width="1.4" fill="none"/></g>
-  <text x="312" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">24</text>
+  <text x="312" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">10</text>
   <text x="312" y="240" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">Repos</text>
   <rect x="420" y="162" width="196" height="88" rx="10" fill="#2b1a06" stroke="#b45309" stroke-width="1"/>
   <g transform="translate(509,180) scale(0.75)"><path d="M12 2c1 4-3 5-3 9a3 3 0 006 0c0-1-.5-2-.5-3 2 1.5 3.5 3.5 3.5 6a6 6 0 11-12 0c0-4.5 4-7 6-12z" fill="#f59e0b"/></g>
-  <text x="518" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f59e0b" text-anchor="middle">48</text>
+  <text x="518" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#f59e0b" text-anchor="middle">0</text>
   <text x="518" y="240" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" fill="#f59e0b" text-anchor="middle">Streak</text>
   <rect x="626" y="162" width="196" height="88" rx="10" fill="#121212" stroke="#3f3f46" stroke-width="1"/>
   <g transform="translate(715,180) scale(0.75)"><path d="M7 4h10v4a5 5 0 01-10 0V4z" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 5.5H4.5V7a3.5 3.5 0 003 3.45M17 5.5h2.5V7a3.5 3.5 0 01-3 3.45" fill="none" stroke="#ffffff" stroke-width="1.5"/><path d="M12 13v4M8.5 20h7M9.5 20l.6-3h3.8l.6 3" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g>
-  <text x="724" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">6</text>
+  <text x="724" y="222" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">7</text>
   <text x="724" y="240" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">Stars</text>
   <rect x="8" y="262" width="814" height="52" rx="10" fill="#121212" stroke="#3f3f46" stroke-width="1"/>
   <text x="24" y="283" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" fill="#9ca3af">Top languages</text>
   <clipPath id="langbar"><rect x="20" y="292" width="790" height="9" rx="4.5"/></clipPath>
   <g clip-path="url(#langbar)">
-  <rect x="20.0" y="292" width="356.5" height="9" fill="#dc2626"><title>Python 45%</title></rect>
-  <rect x="375.5" y="292" width="198.5" height="9" fill="#7f1d1d"><title>JavaScript 25%</title></rect>
-  <rect x="573.0" y="292" width="143.2" height="9" fill="#d4d4d8"><title>HTML 18%</title></rect>
-  <rect x="715.2" y="292" width="95.8" height="9" fill="#71717a"><title>Other 12%</title></rect>
+  <rect x="20.0" y="292" width="396.0" height="9" fill="#dc2626"><title>Python 50%</title></rect>
+  <rect x="415.0" y="292" width="198.5" height="9" fill="#7f1d1d"><title>HTML 25%</title></rect>
+  <rect x="612.5" y="292" width="198.5" height="9" fill="#d4d4d8"><title>JavaScript 25%</title></rect>
   </g>
   <text x="20" y="341" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" fill="#6b7280">Selected work</text>
 </svg>

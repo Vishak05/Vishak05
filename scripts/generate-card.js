@@ -136,8 +136,12 @@ async function collect() {
   }
 
   const repos = latest.user.repositories;
+  // The calendar spans a full year from `from`, so it runs past today with
+  // zero-filled future days. Those would end the streak walk immediately.
+  const today = new Date().toISOString().slice(0, 10);
   const days = latest.user.contributionsCollection.contributionCalendar.weeks
-    .flatMap((w) => w.contributionDays);
+    .flatMap((w) => w.contributionDays)
+    .filter((d) => d.date <= today);
 
   const pinned = latest.user.pinnedItems.nodes
     .filter(Boolean)
