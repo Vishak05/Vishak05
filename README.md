@@ -35,7 +35,7 @@
    Focus      ▸  ML · Quantum ML · Full Stack
    Stack      ▸  Python · Django · React · Node
    Studying   ▸  CEG, Anna University — final year
-   Off duty   ▸  FC Bayern München · One Piece · Bleach
+   Off duty   ▸  Anime · Gaming · Sports
 ◣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━◢
 ```
 
