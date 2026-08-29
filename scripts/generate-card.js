@@ -262,7 +262,7 @@ function renderMain(d) {
   });
 
   // top languages
-  o.push(cardRect(P, 262, CW, 52));
+  o.push(cardRect(P, 262, CW, 80));
   o.push(`<text x="24" y="283" ${F} font-size="11" fill="${C.muted}">Top languages</text>`);
   const barX = 20;
   const barY = 292;
@@ -279,9 +279,20 @@ function renderMain(d) {
   });
   o.push('</g>');
 
-  o.push(`<text x="20" y="341" ${F} font-size="11" fill="${C.mutedOnPage}">Selected work</text>`);
+  // Legend: the bar alone shows proportion but not which language is which.
+  // Widths are estimated from character count - there is no text metrics API
+  // here - so the spacing is generous enough to absorb the error.
+  let lx = barX + 4;
+  d.langs.forEach((l, i) => {
+    const label = `${l.name} ${(l.pct * 100).toFixed(0)}%`;
+    o.push(`<rect x="${lx.toFixed(1)}" y="316" width="8" height="8" rx="2" fill="${shades[i % shades.length]}"/>`);
+    o.push(`<text x="${(lx + 13).toFixed(1)}" y="324" ${F} font-size="11" fill="${C.muted}">${esc(label)}</text>`);
+    lx += 13 + label.length * 6.1 + 18;
+  });
 
-  return wrap(350, o, 'Vishak - GitHub profile card');
+  o.push(`<text x="20" y="369" ${F} font-size="11" fill="${C.mutedOnPage}">Selected work</text>`);
+
+  return wrap(378, o, 'Vishak - GitHub profile card');
 }
 
 // Each work card is its own SVG so the README can wrap it in a link.

@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 <svg xmlns="http://www.w3.org/2000/svg" width="830" height="70" viewBox="0 0 830 70" role="img" aria-label="dual-stream-deepfake-detection - Dual-stream spatial-frequency deepfake detector, extending a ResNet-18 baseline with an FFT-based branch.">
-=======
-<svg xmlns="http://www.w3.org/2000/svg" width="830" height="70" viewBox="0 0 830 70" role="img" aria-label="dual-stream-deepfake-detection - Dual-stream spatial-frequency deepfake detector, extending a ResNet-18 baseline with an FFT-based branch to cut false positives from StyleGAN3 augmentation.">
-  <rect width="830" height="70" fill="#0a0a0a"/>
->>>>>>> 2b37a8d9d4ce5c3b1fba3c756b7727980a056c09
   <rect x="8" y="1" width="814" height="68" rx="10" fill="#121212" stroke="#3f3f46" stroke-width="1"/>
   <g transform="translate(28,25) scale(0.8333333333333334)"><path d="M8 8.5h8a5.5 5.5 0 015.05 7.65l-.6 1.4a2.3 2.3 0 01-3.8.63L15.2 16H8.8l-1.45 2.18a2.3 2.3 0 01-3.8-.63l-.6-1.4A5.5 5.5 0 018 8.5z" fill="none" stroke="#dc2626" stroke-width="1.8" stroke-linejoin="round"/><path d="M7.2 11.4v2.4M6 12.6h2.4M16.1 11.9h.01M17.9 13.4h.01" stroke="#dc2626" stroke-width="1.7" stroke-linecap="round"/></g>
   <text x="58" y="31" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#ffffff">dual-stream-deepfake-detection</text>

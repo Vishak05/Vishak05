@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 <svg xmlns="http://www.w3.org/2000/svg" width="830" height="70" viewBox="0 0 830 70" role="img" aria-label="Stock-Market-Portfolio - A Stock Market Portfolio application to track investments and monitor stock performance.">
-=======
-<svg xmlns="http://www.w3.org/2000/svg" width="830" height="70" viewBox="0 0 830 70" role="img" aria-label="Stock-Market-Portfolio - A Stock Market Portfolio application designed to track investments, monitor stock performance, and manage financial assets efficiently.">
-  <rect width="830" height="70" fill="#0a0a0a"/>
->>>>>>> 2b37a8d9d4ce5c3b1fba3c756b7727980a056c09
   <rect x="8" y="1" width="814" height="68" rx="10" fill="#121212" stroke="#3f3f46" stroke-width="1"/>
   <g transform="translate(28,25) scale(0.8333333333333334)"><circle cx="12" cy="12" r="9" fill="none" stroke="#dc2626" stroke-width="1.8"/><path d="M3 12h18M12 3v18" stroke="#dc2626" stroke-width="1.4" fill="none"/><path d="M5.6 5.6a10 10 0 010 12.8M18.4 5.6a10 10 0 000 12.8" stroke="#dc2626" stroke-width="1.4" fill="none"/></g>
   <text x="58" y="31" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#ffffff">Stock-Market-Portfolio</text>
-  <text x="58" y="51" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" fill="#9fb3cc">A Stock Market Portfolio application designed to track investments, monitor stock performance, and mana…</text>
+  <text x="58" y="51" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" fill="#9fb3cc">A Stock Market Portfolio application to track investments and monitor stock performance.</text>
 </svg>
