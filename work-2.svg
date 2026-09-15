@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="830" height="121" viewBox="0 0 830 121" role="img" aria-label="tether - Control your Windows laptop from your phone over Tailscale — lock, sleep, volume, Wi-Fi, screenshots, and a live status dashboard.">
+  <rect x="8" y="1" width="814" height="119" rx="10" fill="#121212" stroke="#3f3f46" stroke-width="1"/>
+  <g transform="translate(28,22) scale(1)"><path d="M10.5 2h3l.4 2.3 1.6.9 2.2-.9 1.5 2.6-1.8 1.5v1.8l1.8 1.5-1.5 2.6-2.2-.9-1.6.9-.4 2.3h-3l-.4-2.3-1.6-.9-2.2.9-1.5-2.6L6.6 12v-1.8L4.8 8.7l1.5-2.6 2.2.9 1.6-.9L10.5 2zm1.5 6a4 4 0 100 8 4 4 0 000-8zm0 2a2 2 0 110 4 2 2 0 010-4z" fill="#dc2626"/></g>
+  <text x="64" y="36" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#ffffff">tether</text>
+  <text x="64" y="54" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" fill="#9fb3cc">Control your Windows laptop from your phone over Tailscale — lock, sleep, volume, Wi-Fi, screenshots, and a</text>
+  <text x="64" y="72" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" fill="#9fb3cc">live status dashboard.</text>
+  <rect x="64" y="84" width="55" height="19" rx="9.5" fill="#1b1b1b" stroke="#3f3f46" stroke-width="1"/>
+  <text x="91.5" y="97" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" fill="#9ca3af" text-anchor="middle">Python</text>
+  <rect x="126" y="84" width="73" height="19" rx="9.5" fill="#1b1b1b" stroke="#3f3f46" stroke-width="1"/>
+  <text x="162.5" y="97" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" fill="#9ca3af" text-anchor="middle">Tailscale</text>
+  <rect x="206" y="84" width="79" height="19" rx="9.5" fill="#1b1b1b" stroke="#3f3f46" stroke-width="1"/>
+  <text x="245.5" y="97" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" fill="#9ca3af" text-anchor="middle">WebSockets</text>
+</svg>
